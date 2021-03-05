@@ -9,9 +9,11 @@ terraform {
 
 module "nodes" {
   source = "./aws"
-  region        = "us-east-1"
+  region = var.region
+  profile = var.profile
   instance_type = "t2.large"
   cluster_id    = "rke"
+  common_tags = var.common_tags
 }
 
 resource "rke_cluster" "cluster" {
@@ -21,6 +23,7 @@ resource "rke_cluster" "cluster" {
 
   nodes {
     address = module.nodes.addresses[0]
+
     internal_address = module.nodes.internal_ips[0]
     user    = module.nodes.ssh_username
     ssh_key = module.nodes.private_key
