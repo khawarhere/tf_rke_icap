@@ -24,11 +24,6 @@ region = "us-east-1"
 AWS_ACCESS_KEY_ID = "xxxxxxxxxxxxxx"
 AWS_SECRET_ACCESS_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-
-#set API keys to environment variables
-$ export AWS_ACCESS_KEY_ID="<your-access-key>"
-$ export AWS_SECRET_ACCESS_KEY="<your-secret-key>" 
-
 #deploy
 $ terraform init && terraform apply
 
