@@ -19,6 +19,12 @@ This repository is an examples for building a Kubernetes cluster using Terraform
 $ git clone https://github.com/khawarhere/tf_rke_icap.git
 $ cd tf_rke_icap
 
+#create a file `terraform.tfvars` in root folder, set following parameters:
+region = "us-east-1"
+AWS_ACCESS_KEY_ID = "xxxxxxxxxxxxxx"
+AWS_SECRET_ACCESS_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+
 #set API keys to environment variables
 $ export AWS_ACCESS_KEY_ID="<your-access-key>"
 $ export AWS_SECRET_ACCESS_KEY="<your-secret-key>" 
