@@ -2,7 +2,6 @@
 
 This repository is an examples for building a Kubernetes cluster using Terraform and Terraform RKE provider on AWS.
 
-> ref: [https://rancher.com/blog/2018/2018-05-14-rke-on-aws/](https://rancher.com/blog/2018/2018-05-14-rke-on-aws/)
 
 ## How to use
 
@@ -17,8 +16,8 @@ This repository is an examples for building a Kubernetes cluster using Terraform
 
 ```console
 #clone this repo
-$ git clone https://github.com/rancher/terraform-provider-rke
-$ cd terraform-provider-rke/examples/aws_ec2
+$ git clone https://github.com/khawarhere/tf_rke_icap.git
+$ cd tf_rke_icap
 
 #set API keys to environment variables
 $ export AWS_ACCESS_KEY_ID="<your-access-key>"
