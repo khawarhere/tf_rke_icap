@@ -12,10 +12,12 @@ variable "common_tags" {
   }
 }
 
-variable "region" {
-  default     = "eu-west-3"
+variable "cluster_id" {
+  default     = "rke_khawar"
 }
 
-variable "profile" {
-  default = "gw"
+variable "instance_type" {
+  default     = "t2.xlarge"
 }
+
+variable "region" {}

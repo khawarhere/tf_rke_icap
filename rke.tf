@@ -6,13 +6,11 @@ terraform {
     }
   }
 }
-
 module "nodes" {
-  source = "./aws"
-  region = var.region
-  profile = var.profile
-  instance_type = "t2.large"
-  cluster_id    = "rke"
+  source = "./ec2"
+  region        = var.region
+  instance_type = var.instance_type
+  cluster_id    = var.cluster_id
   common_tags = var.common_tags
 }
 
@@ -23,7 +21,6 @@ resource "rke_cluster" "cluster" {
 
   nodes {
     address = module.nodes.addresses[0]
-
     internal_address = module.nodes.internal_ips[0]
     user    = module.nodes.ssh_username
     ssh_key = module.nodes.private_key
@@ -39,13 +36,6 @@ resource "rke_cluster" "cluster" {
   nodes {
     address = module.nodes.addresses[2]
     internal_address = module.nodes.internal_ips[2]
-    user    = module.nodes.ssh_username
-    ssh_key = module.nodes.private_key
-    role    = ["worker"]
-  }
-  nodes {
-    address = module.nodes.addresses[3]
-    internal_address = module.nodes.internal_ips[3]
     user    = module.nodes.ssh_username
     ssh_key = module.nodes.private_key
     role    = ["worker"]

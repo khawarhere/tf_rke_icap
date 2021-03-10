@@ -1,17 +1,13 @@
 locals {
-//  cluster_id_tag = {
-//    "kubernetes.io/cluster/${var.cluster_id}" = "owned"
-//  }
   cluster_id_tag = merge(
     var.common_tags,
     {
-      "kubernetes.io/cluster/${var.cluster_id}" = "InvoZone"
+      "kubernetes.io/cluster/${var.cluster_id}" = "iz"
     },
   )
 }
 
-data "aws_availability_zones" "az" {
-}
+data "aws_availability_zones" "az" {}
 
 resource "aws_default_subnet" "default" {
   availability_zone = data.aws_availability_zones.az.names[count.index]
@@ -20,7 +16,7 @@ resource "aws_default_subnet" "default" {
 }
 
 resource "aws_security_group" "allow-all" {
-  name        = "rke-default-security-group"
+  name        = "rke-default-security-group-khawar"
   description = "rke"
 
   ingress {
@@ -41,18 +37,17 @@ resource "aws_security_group" "allow-all" {
 }
 
 resource "aws_instance" "rke-node" {
-  count = 4
-
+  count = 3
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.rke-node-key.id
   iam_instance_profile   = aws_iam_instance_profile.rke-aws.name
   vpc_security_group_ids = [aws_security_group.allow-all.id]
-//  tags                   = local.cluster_id_tag
+//  subnet_id     = each.value
   tags                   = merge(
     var.common_tags,
     {
-      "Name" = "rke-node-${count.index}"
+      "Name" = "rke-node-${count.index}",
     },
   )
 
@@ -66,8 +61,11 @@ resource "aws_instance" "rke-node" {
 
     inline = [
       "curl ${var.docker_install_url} | sh",
-      "sudo usermod -a -G docker ubuntu",
+      "sudo systemctl stop docker",
+      "sudo usermod -a -G docker $USER",
+      "sudo chown $USER:docker /var/run/docker.sock",
+      "sudo dockerd",
+      "sudo systemctl start docker",
     ]
   }
 }
-

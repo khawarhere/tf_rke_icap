@@ -1,6 +1,6 @@
 # Step 1: Create an IAM role
 resource "aws_iam_role" "rke-role" {
-  name = "rke-role"
+  name = "rke-role-khawar"
 
   assume_role_policy = <<EOF
 {
@@ -17,7 +17,7 @@ EOF
 
 # Step 2: Add our Access Policy
 resource "aws_iam_role_policy" "rke-access-policy" {
-name = "rke-access-policy"
+name = "rke-access-policy-khawar"
 role = aws_iam_role.rke-role.id
 
 policy = <<EOF
@@ -57,7 +57,7 @@ EOF
 
 # Step 3: Create the Instance Profile
 resource "aws_iam_instance_profile" "rke-aws" {
-  name = "rke-aws"
+  name = "rke-aws-khawar"
   role = aws_iam_role.rke-role.name
 }
 
