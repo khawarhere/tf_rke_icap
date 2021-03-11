@@ -26,8 +26,8 @@ resource "aws_internet_gateway" "internet_gateway" {
 # 03. Create Subnet public
 resource "aws_subnet" "subnet_public" {
   vpc_id     = aws_vpc.vpc.id
-  cidr_block = var.subnets_public_cidr
-  availability_zone = var.vpc_azs[0]
+  cidr_block = var.subnet_public_cidr
+  availability_zone = "${var.region}a"
   map_public_ip_on_launch = "true"
   tags = merge(
     var.common_tags,
@@ -38,8 +38,15 @@ resource "aws_subnet" "subnet_public" {
   depends_on = [aws_vpc.vpc]
 }
 
-# 06. Associate public Route Table with public Subnet
-resource "aws_route_table_association" "rta_public_icap" {
+resource "aws_route" "route_ingress_public" {
+  route_table_id            = aws_vpc.vpc.default_route_table_id
+  destination_cidr_block    = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.internet_gateway.id
+  depends_on = [aws_vpc.vpc,aws_internet_gateway.internet_gateway, aws_subnet.subnet_public]
+}
+
+# 04. Associate public Route Table with public Subnet
+resource "aws_route_table_association" "rta_public" {
   subnet_id      = aws_subnet.subnet_public.id
   route_table_id = aws_vpc.vpc.default_route_table_id
   depends_on = [aws_vpc.vpc,aws_internet_gateway.internet_gateway, aws_subnet.subnet_public]

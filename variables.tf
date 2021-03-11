@@ -17,7 +17,7 @@ variable "cluster_id" {
 }
 
 variable "instance_type" {
-  default     = "t2.xlarge"
+  default     = "t2.medium"
 }
 
 variable "region" {}
